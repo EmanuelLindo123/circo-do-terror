@@ -46,11 +46,13 @@
       return `<section class="categoria" id="${escapeHtml(cat.id)}" aria-label="${escapeHtml(cat.titulo)}">
         <img class="placa" src="${escapeHtml(cat.placa)}" alt="${escapeHtml(cat.titulo)}" />
         <div class="lista">${list.map((p) => {
-          const sala = cfg.salas[p.sala]?.nome || 'Sala a definir';
+          const descricao = p.descricao || 'Confira os ingredientes';
           return `<article class="produto">
-            <img class="foto" src="${escapeHtml(p.imagem)}" style="object-position:${escapeHtml(p.imagemPos || '50%')}" alt="Imagem ilustrativa de ${escapeHtml(p.nome)}" loading="lazy" />
+            ${p.categoria === 'salgados'
+              ? `<div class="foto foto-salgado" role="img" aria-label="${escapeHtml(p.nome)}" style="background-position:${escapeHtml(p.imagemPos || '50%')} center"></div>`
+              : `<img class="foto" src="${escapeHtml(p.imagem)}" alt="${escapeHtml(p.nome)}" loading="lazy" />`}
             <div class="produto-info"><h3 class="nome">${escapeHtml(p.nome)}</h3>
-              <div class="sala">${escapeHtml(sala)}</div>
+              <div class="sala">${escapeHtml(descricao)}</div>
               <div class="preco">${money(p.preco)}</div>
               <button class="add" type="button" data-add="${escapeHtml(p.id)}" aria-label="Adicionar ${escapeHtml(p.nome)} ao carrinho"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Adicionar</button>
             </div></article>`;
