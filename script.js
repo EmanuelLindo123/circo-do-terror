@@ -52,7 +52,7 @@
               ? `<div class="foto foto-salgado" role="img" aria-label="${escapeHtml(p.nome)}" style="background-position:${escapeHtml(p.imagemPos || '50%')} center"></div>`
               : p.categoria === 'doces' && p.id !== 'combo-brigadeiro-brownie'
                 ? `<div class="foto foto-doce" role="img" aria-label="${escapeHtml(p.nome)}" style="background-position:${escapeHtml(p.imagemPos || '0%')} center"></div>`
-                : `<img class="foto${p.categoria === 'bebidas' ? ' foto-bebida' : ''}" src="${escapeHtml(p.imagem)}" alt="${escapeHtml(p.nome)}" loading="lazy" />`}
+                : `<img class="foto${p.categoria === 'bebidas' ? ' foto-bebida' : ''}" src="${escapeHtml(p.imagem)}" alt="${escapeHtml(p.nome)}" loading="lazy" data-fallback="${escapeHtml(p.imagemFallback || '')}" />`}
             <div class="produto-info"><h3 class="nome">${escapeHtml(p.nome)}</h3>
               <div class="sala">${escapeHtml(descricao)}</div>
               <div class="preco">${money(p.preco)}</div>
@@ -90,12 +90,18 @@
     return distinct[0] || null;
   }
 
-  function generateMessage() {
+  function generateMessage(customer) {
     const list = entries();
     const different = [...new Set(list.map((p) => p.sala))];
-    const lines = ['🎪 *CIRCO DO TERROR — NOVO PEDIDO*', ''];
+    const lines = [
+      '🎪 *CIRCO DO TERROR — NOVO PEDIDO*',
+      '',
+      '*Nome:* ' + customer.nome,
+      '*Turma/curso/referência:* ' + customer.complemento,
+      ''
+    ];
     for (const sala of different) {
-      if (different.length > 1) lines.push(`*${cfg.salas[sala]?.nome || 'Sala ' + sala}*`);
+      lines.push(`*${cfg.salas[sala]?.nome || 'Sala ' + sala}*`);
       for (const p of list.filter((p) => p.sala === sala)) {
         lines.push(`${p.qty}x ${p.nome} — ${money(p.qty * p.preco)}`);
       }
@@ -121,9 +127,9 @@
         <div></div><div class="stepper"><button type="button" data-change="-1" data-product="${escapeHtml(p.id)}" aria-label="Diminuir quantidade de ${escapeHtml(p.nome)}">−</button><span>${p.qty}</span><button type="button" data-change="1" data-product="${escapeHtml(p.id)}" aria-label="Aumentar quantidade de ${escapeHtml(p.nome)}">+</button></div>
       </div>`).join('')}</div>
       <footer class="cart-foot"><div class="total"><span>Total</span><span>${money(cartTotal())}</span></div>
-        <p class="routetip">${r === 'AB' ? 'Seu carrinho tem produtos de mais de uma sala. O pedido completo irá para o responsável pelos pedidos mistos.' : `Seu pedido será encaminhado para ${escapeHtml(name)}.`}</p>
-        <button type="button" class="finalizar" id="checkout"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>Finalizar pelo WhatsApp</button>
-        <p class="simulado">O WhatsApp abrirá com o pedido preenchido. Basta tocar em Enviar.</p>
+        <p class="routetip">${r === 'AB' ? 'Seu pedido reúne itens da Sala T18 e da Sala T16. O atendimento conjunto receberá o pedido completo.' : `Seu pedido será encaminhado para ${escapeHtml(name)}.`}</p>
+        <button type="button" class="finalizar" id="checkout"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>Finalizar pedido</button>
+        <p class="simulado">Antes do WhatsApp, informe seu nome completo e sua turma ou curso.</p>
       </footer>`;
   }
 
@@ -132,30 +138,63 @@
     byId(id).hidden = false;
     document.body.style.overflow = 'hidden';
     if (id === 'cartOverlay') { renderCart(); refreshCounters(); byId('closeCart').focus(); }
-    else byId('closePreview').focus();
+    else if (id === 'customerOverlay') {
+      byId('customerRoute').textContent = route() === 'AB'
+        ? 'Pedido com itens da T18 e da T16: encaminhamento ao atendimento conjunto.'
+        : 'Seu pedido irá para ' + (cfg.salas[route()]?.nome || 'a sala responsável') + '.';
+      byId('customerName').focus();
+    } else byId('closePreview').focus();
   }
 
   function closeSheet(id) {
     byId(id).hidden = true;
-    if (byId('cartOverlay').hidden && byId('previewOverlay').hidden) document.body.style.overflow = '';
+    if (byId('cartOverlay').hidden && byId('previewOverlay').hidden && byId('customerOverlay').hidden) document.body.style.overflow = '';
     refreshCounters();
     if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
   }
 
   function checkout() {
     if (!cartCount()) return;
+    openSheet('customerOverlay');
+  }
+
+  function confirmOrder(event) {
+    event.preventDefault();
+    if (!cartCount()) { closeSheet('customerOverlay'); return; }
+    const nomeInput = byId('customerName');
+    const complementoInput = byId('customerExtra');
+    const nome = nomeInput.value.trim().replace(/\s+/g, ' ');
+    const complemento = complementoInput.value.trim().replace(/\s+/g, ' ');
+    nomeInput.setCustomValidity(nome.split(' ').length >= 2 ? '' : 'Digite seu nome completo (nome e sobrenome).');
+    complementoInput.setCustomValidity(complemento ? '' : 'Informe sua turma, curso ou escreva Visitante.');
+    if (!byId('customerForm').reportValidity()) return;
+
     const r = route();
     const rawPhone = String(cfg.salas[r]?.whatsapp || '').replace(/\D/g, '');
-    const message = generateMessage();
-    // Não há número fictício ou envios simulados: sem configuração, mostramos a prévia.
+    const message = generateMessage({ nome, complemento });
     if (!/^\d{12,13}$/.test(rawPhone)) {
       byId('previewBody').textContent = message;
       openSheet('previewOverlay');
       return;
     }
-    // Link oficial: abre a conversa com mensagem preenchida; o cliente envia manualmente.
+    // Abre a conversa com a mensagem preenchida; o cliente aperta Enviar.
+    closeSheet('customerOverlay');
     window.location.href = `https://wa.me/${rawPhone}?text=${encodeURIComponent(message)}`;
   }
+
+  byId('customerForm').addEventListener('submit', confirmOrder);
+  byId('customerName').addEventListener('input', (event) => event.target.setCustomValidity(''));
+  byId('customerExtra').addEventListener('input', (event) => event.target.setCustomValidity(''));
+
+  // Uma imagem local permanece disponível se a foto externa não carregar.
+  document.addEventListener('error', (event) => {
+    const img = event.target;
+    if (img?.tagName === 'IMG' && img.dataset.fallback) {
+      const alternate = img.dataset.fallback;
+      delete img.dataset.fallback;
+      img.src = alternate;
+    }
+  }, true);
 
   document.addEventListener('click', (event) => {
     const addButton = event.target.closest('[data-add]');
@@ -165,6 +204,7 @@
     if (event.target.closest('#topCart,#stickyButton')) { openSheet('cartOverlay'); return; }
     if (event.target.closest('#closeCart,#backShopping')) { closeSheet('cartOverlay'); return; }
     if (event.target.closest('#closePreview')) { closeSheet('previewOverlay'); return; }
+    if (event.target.closest('#closeCustomer')) { closeSheet('customerOverlay'); return; }
     if (event.target.closest('#checkout')) { checkout(); return; }
     if (event.target.closest('#copyMessage')) {
       const text = byId('previewBody').textContent;
@@ -173,9 +213,11 @@
     }
     if (event.target === byId('cartOverlay')) closeSheet('cartOverlay');
     if (event.target === byId('previewOverlay')) closeSheet('previewOverlay');
+    if (event.target === byId('customerOverlay')) closeSheet('customerOverlay');
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !byId('previewOverlay').hidden) closeSheet('previewOverlay');
+    else if (event.key === 'Escape' && !byId('customerOverlay').hidden) closeSheet('customerOverlay');
     else if (event.key === 'Escape' && !byId('cartOverlay').hidden) closeSheet('cartOverlay');
   });
 
