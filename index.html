@@ -78,6 +78,7 @@
     @media(min-width:511px){.hero{height:275px}.hero-title{top:95px}.hero-overline{bottom:15px}}
     @media(max-width:370px){.hero{height:221px}.hero-title{top:75px}.produto{grid-template-columns:83px 1fr;padding:8px;gap:10px}.foto{width:83px;height:83px}.nome{font-size:12px}.preco{font-size:15px}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  .backup-category-title{margin:16px auto;color:#ffdfaf;text-align:center;font:900 24px Georgia,serif;letter-spacing:2px;text-shadow:0 3px 5px #120106}.backup-icon{display:grid;place-items:center;font-size:37px;background:#4d1520}
   </style>
   <script>
 /*
@@ -90,7 +91,7 @@
   Confirme a sala responsável por cada produto antes de publicar.
 */
 /* Miniaturas otimizadas dos três salgados aprovados, em sprite WebP. */
-const foodSprite = 'data:image/webp;base64,UklGRl4ZAABXRUJQVlA4IFIZAAAQlQCdASrgAaAAPymAtVOuKD+wrTh76/AlCWIoMHFvTfwfDbGyFN16aMy6ehd4e+29P/l/5625XVmVzhVzwdzWQVXL++pmj43Xzn/ch2tBhcWKw1dTbIzp+tGqJX57o1eE0lPPtgjP/9ZU35yfiRJDCJ1qmZncptFM/g0wbvxGkysBZxlRkrxCMiqMmFLs1S6tvOdQTk6fELg4nPsqXtetMPIE3oluDxjXtwrf5tOCQV+x6VF5Z8YZjKPv8oTwhjGSoM50Aa956DRJcfNKrYv2mXNbRaHO4tBnbcUeqrpSDCoe1jUwgcoK40/S02VaDqTYFDXzZmxV0gL6aqfuV00TkDQrPOgfViHqN+9mHwkL6vch/tMg3L3FcIe1XpY0+K/K202G71lgdLdd8PqditsAgpcDcyPMxKixHg8+Eco1IehilaqIrLFR8T41BZdyx2euBj/xj1lO3huw3kj+LHuOQaTE8ITTKwGPiDHkdTq7At8x70RGb3irMf7ZQbxJcZpMlSCQDy1CWRi34DCukuK3x1JscmM5r/wza8HLMpeo72qPjrdMm1OXPjOYalE9rublqFOI9r4Lu4vfVpp68QmPbOmqYmJ8rnVBkkiLYN6FQz/eY6kri4q2BAvys2wgvawPVOlF+bk3CC0K5LYA25Tq73VZ/8sNfsHxsgeoEfrkKdT429vTo8fpMXdOm6jTfp1Pfhew/zEhLOl4WCC1c7wgrBBtAgL2qICzXASVk8BTyHzGRFkC0kxxq1bDY+Igy/2v+vZzMoqShKmwEtG2IpRQv4W/PCSIHZNphuzOLE5S8QwKL2p8e7ggZEe0PrJ1D3Ne4Iyl4z+OCsd2mTM+tDGeIHl3BytaqNDJg2sZffYm7k/4SgqFAqnVQct0DSQbLBBJtY7TJy2yKzyayrkwC94/u8udl26E+3forfk0nECMv4c1BXpVRYnlSELMcpN0aBDs94yw540mqh3LFUnXlHJn3s2BW6vq8CT/sR++EryClpM5/Snjv7HLIymBQlAsnkejuuADTlNDA+4GxlfkuWh9kT+b09jJFC9M7xEiTCgjoQAcR9f9dIR6ByE2Ht63njAtLxoIsxTO/+E1hrd6zR0Lz8XlYljmgN42yFMbLxmuoZH3zVEtHtQYS+j8jbqTZsTYDaargC55kBORZnqgdTioDP7BYmEyRG+wpsM2cL6mPi50VMBj6mqXnzdC7Qs9teSscSLcB34cfN+wiRB7NK+rLElV4iUqLaxZFaA7yBPQ36/RiXP02UFoyrhPwMoJ8PycvoxInXbCtG/uA29ugk8NHtzlZlXK3HUYH37SxFa3SDJflbLJYM1liUaGl0PyC43ItGWO+K3D1jPb+r8BKgvnh1gp/h82BY++psQJT5NSqMwUGjai/fARPHlaceWLF+nFYDOfMZ/e+wzrP2nfs48hX8Fd/39RXqSUyypea85DJ0QA61B52cmCv7/1Mdc0ECCJHlHoRTl8DjeJUar/WSTr4tai1+FEqpCpKsq+GRlPAa/njQQxkawsPbesTO75aUA4Z/ELJfmJ+wy/fyTAfpmeAXyYT/oqZ0a71lc++akNMyaxtK//iPSj4XJ6We0WwRzaAP7tZC6VExlhQPUK58yrJY8hxeHxY4splCZrgCe7GNhyShXBGTbOJ+4L424A2Y+CDMxE/pDNi7WPWt6Qr2n/u3f/A+Yh2UiCgLkfLgxif6uLJKpKk2ocQIGK2xttYF26QxxBUgq9k8tltr+IaeCASZNgJdkDGREs95xOKWv7IycSbcklgUSYTBkfB7a/1dwr9KAwwM/XwUe5umHHFMgtilEZ/WezvbAyaaDbB9wl7OfpMX80xDv7C6/Ulv14kNkYbrGlz5JUDRs9NgK8MAJNliAyg69FKqPBC5X9KAGacIJTjwPTsGAwDeL2w6Lol7e3/BOnWai1pQe6043tHxCws1XPIrzqEJDxY0sFXPfAyjjmtoamuzTcnrKotssf2bMAYuRoWNbNiAyAHQ9PYmH1DebBPWkTplUq5gF5nWQzgKHvex+9msy+rthWZ/7RWdfBODqcPOYYgM7opz8eFHN/QiIiIwJh21jNcOKapDurwcXnfGsRAW4WhFg5qz9Kqqwxinrx/nTGCE965W9Ajm/y0MTjsGhnk9Ul5uPiAM3i5ogxc0t/yW9vw4hjMJRSJPFOMFP0iAislMCLEVs3tVIRFs2pE+ZFS9WR6r+PSkVCSomNoxvwRX60Qcc937NLnouHSs5QNFPQbW/e2DqTSbZCTpR36FhScg2a+gG1y1UNTGZaGjXLgBLfvXQPtwzicaZgIJp13D841mifs+uKeD7o0wMPwdPOJ2BB5aln0OjEcjV6cslQnfV59gScZk69SJGT7Jr/5ebuNfLlAsnLLdIY9NSsAqj/YFUqlDXmt3opTl0lr9YSge8XKhgnvzulZIZGzvo6h6af7LEz13+uikGMBEhqFZhW8BbkETWgsD33TJ85DGAqmCNKg/zYLwy7C98SeNuuFoBNbBVqDxvvp65RendZHzZ3Yo2l4Z6qrX11ucqEtTKiXg50iB3USWgZIK1BWBUjQM6UCwp41ooteXNHa9PFITwZ7Zvlb87oOQ8vqj5kSF75rOGj4gS6QoeEZjAGdjHVlf7ndzg8+JiRtn5UtY6Oabae1blJX0VQwPCSXsu8/aChnPtOVam7x4H51GBXIjRuGGflHxHy4IgZmEf7eZDL1x0R517se4SAAOth0T47e2+E3UN+1aNqt9Nu0EwCKy52Bzbv8jXyodjwPoEbAdmlJBGd++/wIMttnzwAKZbAJ2zr1qOdBFQi3i1Sil289bnjTNqHSM49RD6u8vTdYQTmaiqKaGqPxWMFYJCUAhys0uRDMBPPwNqnueg6H6DJqP3mD01W6qugjeCKXBvfctDAK6PIBz8rQCpdUlx21xcB4WPmI9lWIFyU0ZqFTScvyD+PzvQv4X5va8I9Plf/nehNsXxKNTpP/jC+GYO7IxjD/fcvuPcS+9SGwyvrJvtJi4RI0QrUp455a7xTxWFvwiJKuRkHQhqcJF65BO3KycosmXUfud8BdHvuGZaFst1tuMwO+8f+zTykYmDVpIykh61JtD8zZyJD6iMfwZ6lwByEmOXBngkDckzyawFdeFVFeIj54HdQURsIe6bizxGOYpb6gLRcvLdh5XWaKqK9WoO5KX2bW45jdQ/6hIoay84kibif+UDvzUdxq4j1SMaNv+xrOAD7qZCfDlt9iE60AOTOI48eHcjTevDKCtj8MTrelH7ZAxrJ4OuEExRp0XgcdTzYs6p/8bRS72TYXImWHPAaFb6Om+hLlVskj0yPmj+DCTqvViNnthWKkFzONBOnvAMbv6M9iNecdcUmMTfy3AetqBqIu+84y7i5UWfQ2E+MnPFXvXDHD9fYhTcdjeSysnuF7D28OezuPxbiJpm/GPg2L6uDCeIdxOCS0iMnxbNYEXdRaHgKZmU9ns0VgsQrdRF7KneAL+5sg6hnGMLhP/tVeZMgSlK+K3iRFeRMFm5/G8FznURxieG0PPLpgloTK43ql1aKoyDNaZAX2oteKYuRP+YNkK9aSWucN7/lVMnJr2FFpxnWxtwhvkm7RZ+iy8aiw8ReRbUZtVxhQjR0jiNY79laSjfdXV5MFRm43NK7CzvdQIQ9yRYbgV5guMAYow3aMxQcbbGyiJoI9gAk5Rs3Y8mkm3jURrNdnbou+Ql6hvU6+N5/D8OmRq4UFGqwDc+/GnfNS2amjH3Rk+7FTpVKvCVmowsficFe84OOWDkXp7npGdU+Cn33on/A+9LC7ExgHtnaq0UOMvLuNKMjNIZoifxGIw6elUj/fsk0WayjiZ7DjUMHsFNUhOnGPaUJMJelXLcMN3AkGFCi66Ea/msYYjGssfW2C92E4s6O4yDJbJU3W4y8RjCsOSA4Qpl3mrEQEo7yQkVd5BKdOTTLH/zwbaNSBnFiXg0f+sn82C1WnC/JoYJmOpQWL7SjKrsaE0c7oHxRr+RXhgrk2kR98O+vNmi7PzATBZuXAPi9/1HVHzbRCPgoiSEylI6TTeGOgGR5XZI1gzgwKZu6ZWf1Pna3wLs14hjmI2NgNZ6VSR7m2s0X2n07V+EJx5OJvHT0ds22MjtRU+xm9qoGDUTVKzY2P8PVTQOmx6oB/w/eVG4CVxA3rIalkUVEz4TxKuliGQapwS2QU289yQMcOG7jhH79NU9CKwitryuE61m4aeLRL/U1ymJebiSS6ZXHspH2qGtRldTV4odLQeWITJeV0MdDxSl0zV9+lc+TugrOBTentjFI73J89m3rv0COS+slppARKqtLsa1YoidjXNe/IoThElL4iz6q0OmFO44QBQXujhjS0oJsItnbYgrE1KdSD3MSZtDXu7AFkTpwWl/stXxB0BaDI6BP4NUVmtiUKWQgdHjKaVkapOXGt54V0JHaFDaNcr7s7RQXGx4/8Slfq8MwmuZ5IZSmsgl8yi1hLtCHxu8K0tfbP1VV8yBs92YC7GQdjEq/qgBz08UDcn5UvJ0OaIo0qLxbaZ+ufyrFkrTqsjyEGN4H4bthxqDeplKn+884UCN+qjvTGWSzH0SjJSh84UsT7nCzCaU1+0XY1ARTTPKM3DEwjJcwbdPBDf6HYj9Yjrxu4JrwJPaM8vVl6xK0/S6r+Lwqa3fqDvXGthej/VOJbokONiF86ogjPDTGyGzr2a5bboq+RDblSpMuKDjUN5TAtSqygG6OJSUoqioxItgq2FF0CDGedM0tsiHI3Bkm6ANtBIrVqGYu+XsO5fe51fb9uOcGwmR2zPNHGK2ShfpqAMvF3+toVgxca7OlIOnA4qhQRfH/M/iWJbC+sbeyO7UO/F04R9pMmI2Z+C8imUJTjKkkTBSnAe3fOPXWdWSIlICdidIWUPcK1wml6oTUOojHxTfTqLP4PXQTySkSSjT4qlAtb4LJ6jlXI0HwdIY3fGqu5fH+Av2g0oBbcS/kIK8pYxsOXt882ryngGhYmMLSkyj/+rxZJB8fmWNCydyRJ7+vaMuU8rNQJuUsrEfnXPMlxzefNEv1T9BQi6GgIbcGnn5qCEyaUi/mPdDBeUAldW1bgacmPckc1E4z7BlB5cTptTHkH+qoMWunbAGH7LkowvXiEm7ML9H36Mt9Pn1maq2j+mZlH0y2nAjtPb485HAZC8eLOoOvJlXog980sx0SDOb4z9PN/SAP6UoKNOQilv3U9giJk2+SORV/WgYv3LfE71Z443kPjlErm+TXk3KoXnRm7j70nkkpObX4wlhoCD73nWJ8hPUNG4iZ0w4afyHJlVLtobb+pDhW1g2Vz7Ms/INhlj2tm378EmRmGe3oF2fSf2beOpNH+oT7L54BBz8GAfZnKB6Cw28UgyvD2WoVvApJOz5NnSt/bL7e+Q3c2Rre11JG1XGxSJ2enib0CKtKHw4jb+J3rMPwspbh5VZzyqG2Bdu4PtT/AkBO44GsZDUGwWCRJYElPIR/DdiCLisOo9I7+SzPkBzPcpizL0/bo8TD3NKMnkq+QBhmubwX82bhyIqU9qTjhd064xyMRUKyoWXyxjmYj/gO4irSdoK8BJlGhY6tW8yPlePZHkpUCjuqoge7gqKm6QSRay2MBhhYhfYSglZHh8lGWsUrar87WerhOVCOEvKWu5PIXIG8BX/9zk1f5Uzib0K5kw1MzQvVM/LtZtpTeq5idi8g9nkVgmu1LfcFzz0JpZy8mSPdPhorTwlDeeVx6wuGhJZIVTbm9cMgt6c9YLF7I9RlISKTiJfdg+OM7CDaH8m6Wz73/G+qo7zQM586RKUYL6VFTyHLGOYJSDRoSiDhMDmIi9xuLGADCXxiulxgwR6arIcxnoTz9Ies542WdMCPIAjZmF704O//MiFtwFE7FoLkitiSu8l2KvQb9cfk8z33AyAN8Wl/7FNysC9uw4hD+wRqKfwucYDU893apuJwScXHHN6jNH8VixK4jPc/asctjQFfIL1hY0g7/NE/Nlm3Juj0Lx/HiNtXzoXoAeiMhxChEZRQ10Vd3tHzNoMNafjnmzyZV0HK5uLr14MkdCOEAPvrHW2NNQpXyTBotpp7mLVI8KoVAUDrB7NgedtTwPJWba/dgh/5Lwj9VKv6j45oVCwpykBSoNQBsecAa0FnM6qpvRkxBcWGa3idCq4SAIDYelR9nCEIzpccCTB87jxWx3ibckJ2/JCDNsiYJu7zR/2gA2/jA1ATCVDFDO/4Ajeuccr0cxAmLpkE71rt42i9H17crop0C4jT+fdarkXz05CR2ab1f/7YnZ6ubOu2zwIkRLt3QMSi62c36dltJeh6oYFVmRs5+FLIJ00/vTkOAPMnFgWqRwf8Thrv29pbeuCvOQurHr23jqyTFqj1FBDK/UcF1BeUXBBf8C9wufaIRFbJnSbL4uyoYA1LNxZbocszpswytDil9IJrxdQTWu7uFIufmLCYI1OZHhlgFktbzOgc3rrCJkpQBRg6jD4pwNL+NRcCda1h8Kd9VzefnLCumDJ66aphqgOXdit5mOZ2eGvdjHVimlCvCaaIUeg+MXl98Uj9/s1f3v1s/ZxP+pdkf7vZ8B2SDmfW7qMFnH6daK7oEjd5cP84e6OeDiBHLtpjP3OZbYAJACUtbuOwd2yVEx/z+vhJmsfQacA+N2lkYb3H5rG9pCXd4EqqhsD6pNFhopnIBcuPj7OqTUytCq7kl0dtkZ3i/Vk/lv+gMTG3JkrM2myUHsFn62ccEy016UWDpP/H+rlyHCp3QyhE4e+v8KIZXVI07KdpNoMRxpb/3g2/X71svQuTcG/TJ4WYb/wQoKe5MXU6YoJrjhTEjqRlW/cylzTuLgcyZcePmqmGzv1U9SefRy3JotL647AmJkiRdT1s8SXRB4FCLZcEDvwogeyv9Zq7GxCixKbszXN5g8xLzwVBJFhCUnUoTMpFPQPpzRFTw9JmfCzt11LFy6POllNrY2xUOeBmkFCOT3uB2Tw3WY58l4fuNH1o95/TOKeq86cqYYJYWqp7B3vzELinM6TeCY7kMu8sOce0mW38sS6sK0tCeoVuSzQw1eJRUSwNO7lX8rfvfnGnKYg3kXbZemDCacGXJmdjFNevJA76yj3yqnjg3vFDmDnVNxKIO4J6cvmKeBpQNqI1vP/wVY4Nid1C10SXCXostYRC0241R5BYO6jlmGaH8ZlxKmjFUicg51aE2thOCXjFOGvSnlNEkfwvuar7/NswsQ6JJaubNkRp0f3FFGctJTvONNImENBI66a3tCAVeJX1NofF8vNxUr1FjRm1DHxKpBmng52I/Rtzvzk5DMQjflZg4308YCUZMB0fzjep11kjhTC6JVBym91XzrNcYrIBWFVBciyguMkP6IYOcxHqI+dUV/1wDmlEjmHtRJcrPxzl2Lyvfwqc0PLsW6jk4Vt+XYPoQlIg/2fvOHT/ThHGXv1K5j06vzW9xaFPJC+dDVEE2yKYuPqusiO8ORRbrE5eDp8DyhjS360lgwFoJsSIvO6plsV6TaU3UHnTDY8iLKg1SJSsWPtsC7FBALPcjX0zcXf+X4MXDXWz/jL0mno1EWj1t/d8feLla/BtQbXBHBlx/DY6XmqahKDu/kk3uu7PETSuesjMjgByaAZxDlgQX8INg577uO3ioqdQrP7IjYwvTC3Ik6r/5bYoy0ZyJG+mlWMnKVmfU7uF6z3+xqZKP+eBS/C/uPdDB/J/e7LnX14ipky6kErRChTWPzjak/Nyg9/ru4lrHjpexAm44YzEZXEM6MBvqeisjrpRaby/nTVC0AZ2M2zeACz7mdVQ44xVpOs12wc4brn5k/sOCsq2aXyW5k1SeG0SZcSTXapj56C3uAr0a9OFbFqED/k2GbnChRvH5TTN46PaDLCncBRuHTyRz5MFhRUkxgJHNd7VsQblkdX5elSE+n532WnJrnooYhKZU/DOTAb3PBLccUj50MkxOxAIBIm9XEuWI67c6ZRDOMPPNSUWeIupkhk3OwkPnwh15jbyChaQXMasMzoMAwrH447ZHeX4D5CAIRc7i/27i2uafSsMLfFEuSSBfto7QBb46m1auFEdV7twZOFXwlmdiRoePhS3AlHHXt4H0GVKhKESPwDiCthdLnwzVXjAvQbnFlxZLdKMYohMkMj+SZEAnHMBo+PM/A3IB1+Z6a1qx/rQJv3rtJxX+xG1vhXFoCp8uTiTVNwo2/DqIY8bBpWNA4j2ffhnQi8AQokSPg70PaFjyX09LlB5ZvZEnu1p0lg0O1XTtOXR+uJOEC58oCoypbSnk5RJ2fd32XJ2+PyqCoDRkgqxHsYYa26VFxYh1lOLhzp8SUNcvn6UeRUPvS/jlkLI4kBsU+QO8TdSm3IeQhbUwusS3JEdsX8UYs8FmE+Rf7b2B/rksjMb1v8Ylxnitj/H3RW/MriGcHosfDRtuP5x002s6mNtkVkOSBPnnndhBqvN2phH/Dw8AayKg6Qldv0mmsQWgnTDIzDqFQogAqJICVDXZHoKTxqHek080CVZrF/uO7Ij9VD+YcbcRxNY7VwkzFTREHiBYTnd546dhSkYTNvvYFNVPS54m8Mdv89T/InqLP8DpKPKJ/Zr1hkuTqI2S01s/f/FwvUxa8Xx4dmZQVdmMjZMz0/OlUyDvsJPEB9RbxAAAA==';
+const foodSprite = './assets/salgados.webp';
 window.CIRCO_CONFIG = {
   evento: 'Circo do Terror',
   salas: {
@@ -131,7 +132,7 @@ window.CIRCO_CONFIG = {
   <main id="main">
     <p class="intro">Escolha seus favoritos, adicione ao carrinho e finalize em um único WhatsApp.</p>
     <div class="separador"></div>
-    <div id="catalogo"></div>
+    <div id="catalogo"><section class="categoria" id="salgados" aria-label="SALGADOS"><h2 class="backup-category-title">SALGADOS</h2><div class="lista"><article class="produto"><img class="foto" src="./assets/salgados.webp" style="object-position:0%" alt="Cachorro-quente avulso" loading="lazy"><div class="produto-info"><h3 class="nome">Cachorro-quente avulso</h3><div class="sala">Sala A</div><div class="preco">R$ 15,00</div><button class="add" type="button" data-add="hotdog" aria-label="Adicionar Cachorro-quente avulso ao carrinho">+ Adicionar</button></div></article><article class="produto"><img class="foto" src="./assets/salgados.webp" style="object-position:50%" alt="Combo cachorro-quente individual" loading="lazy"><div class="produto-info"><h3 class="nome">Combo cachorro-quente individual</h3><div class="sala">Sala A</div><div class="preco">R$ 18,00</div><button class="add" type="button" data-add="combo-individual" aria-label="Adicionar Combo cachorro-quente individual ao carrinho">+ Adicionar</button></div></article><article class="produto"><img class="foto" src="./assets/salgados.webp" style="object-position:100%" alt="Combo cachorro-quente duplo" loading="lazy"><div class="produto-info"><h3 class="nome">Combo cachorro-quente duplo</h3><div class="sala">Sala A</div><div class="preco">R$ 37,00</div><button class="add" type="button" data-add="combo-duplo" aria-label="Adicionar Combo cachorro-quente duplo ao carrinho">+ Adicionar</button></div></article></div></section><section class="categoria" id="doces" aria-label="DOCES"><h2 class="backup-category-title">DOCES</h2><div class="lista"><article class="produto"><div class="foto backup-icon" aria-hidden="true">🍫</div><div class="produto-info"><h3 class="nome">Caixinha de brigadeiro</h3><div class="sala">Sala B</div><div class="preco">R$ 10,00</div><button class="add" type="button" data-add="brigadeiro" aria-label="Adicionar Caixinha de brigadeiro ao carrinho">+ Adicionar</button></div></article><article class="produto"><div class="foto backup-icon" aria-hidden="true">🍫</div><div class="produto-info"><h3 class="nome">Brownie recheado</h3><div class="sala">Sala B</div><div class="preco">R$ 8,00</div><button class="add" type="button" data-add="brownie-recheado" aria-label="Adicionar Brownie recheado ao carrinho">+ Adicionar</button></div></article><article class="produto"><div class="foto backup-icon" aria-hidden="true">🍫</div><div class="produto-info"><h3 class="nome">Brownie sem recheio</h3><div class="sala">Sala B</div><div class="preco">R$ 6,00</div><button class="add" type="button" data-add="brownie-simples" aria-label="Adicionar Brownie sem recheio ao carrinho">+ Adicionar</button></div></article><article class="produto"><div class="foto backup-icon" aria-hidden="true">🍫</div><div class="produto-info"><h3 class="nome">Combo brigadeiro + brownie</h3><div class="sala">Sala B</div><div class="preco">R$ 15,00</div><button class="add" type="button" data-add="combo-brigadeiro-brownie" aria-label="Adicionar Combo brigadeiro + brownie ao carrinho">+ Adicionar</button></div></article></div></section><section class="categoria" id="bebidas" aria-label="BEBIDAS"><h2 class="backup-category-title">BEBIDAS</h2><div class="lista"><article class="produto"><div class="foto backup-icon" aria-hidden="true">🥤</div><div class="produto-info"><h3 class="nome">Coca-Cola 200 ml</h3><div class="sala">Sala A</div><div class="preco">R$ 4,00</div><button class="add" type="button" data-add="coca-200" aria-label="Adicionar Coca-Cola 200 ml ao carrinho">+ Adicionar</button></div></article><article class="produto"><div class="foto backup-icon" aria-hidden="true">🥤</div><div class="produto-info"><h3 class="nome">Coca-Cola Zero 200 ml</h3><div class="sala">Sala A</div><div class="preco">R$ 4,00</div><button class="add" type="button" data-add="coca-zero-200" aria-label="Adicionar Coca-Cola Zero 200 ml ao carrinho">+ Adicionar</button></div></article><article class="produto"><div class="foto backup-icon" aria-hidden="true">🥤</div><div class="produto-info"><h3 class="nome">Coca-Cola 600 ml</h3><div class="sala">Sala A</div><div class="preco">R$ 9,00</div><button class="add" type="button" data-add="coca-600" aria-label="Adicionar Coca-Cola 600 ml ao carrinho">+ Adicionar</button></div></article><article class="produto"><div class="foto backup-icon" aria-hidden="true">🥤</div><div class="produto-info"><h3 class="nome">Coca-Cola Zero 600 ml</h3><div class="sala">Sala A</div><div class="preco">R$ 9,00</div><button class="add" type="button" data-add="coca-zero-600" aria-label="Adicionar Coca-Cola Zero 600 ml ao carrinho">+ Adicionar</button></div></article></div></section></div>
     <p class="nota">Fotos ilustrativas e salas provisórias nesta primeira versão. Confirme os dados antes de divulgar o link.</p>
   </main>
   <div class="sticky-cart" id="stickyCart" hidden><button type="button" class="sticky-btn" id="stickyButton"><span class="carrinho-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.5 12.5h12L22 6H6"/></svg>Ver carrinho <span id="stickyCount">(0)</span></span><span class="subtotal-mini" id="stickyTotal"></span></button></div>
@@ -152,188 +153,6 @@ window.CIRCO_CONFIG = {
 </div>
 <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
   <!-- Iniciar a interface só depois da criação dos elementos HTML. -->
-<script>
-(function () {
-  'use strict';
-
-  const cfg = window.CIRCO_CONFIG;
-  if (!cfg || !Array.isArray(cfg.produtos)) {
-    document.body.textContent = 'Não foi possível carregar o cardápio. Verifique o arquivo config.js.';
-    return;
-  }
-
-  const storageKey = 'circo-terror-carrinho-v1';
-  const products = new Map(cfg.produtos.map((p) => [p.id, p]));
-  const money = (n) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n);
-  const escapeHtml = (v) => String(v).replace(/[&<>"']/g, (s) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-  const byId = (id) => document.getElementById(id);
-
-  let cart = {};
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
-    if (saved && typeof saved === 'object' && !Array.isArray(saved)) {
-      for (const [id, qty] of Object.entries(saved)) {
-        if (products.has(id) && Number.isSafeInteger(qty) && qty > 0) cart[id] = Math.min(qty, 99);
-      }
-    }
-  } catch (_) { /* O carrinho continua funcionando mesmo com armazenamento indisponível. */ }
-
-  let toastTimeout;
-  let lastFocus = null;
-  const entries = () => Object.entries(cart).filter(([id, qty]) => products.has(id) && qty > 0).map(([id, qty]) => ({ ...products.get(id), qty }));
-  const cartCount = () => entries().reduce((sum, p) => sum + p.qty, 0);
-  const cartTotal = () => entries().reduce((sum, p) => sum + p.preco * p.qty, 0);
-  function saveCart() { try { localStorage.setItem(storageKey, JSON.stringify(cart)); } catch (_) {} }
-
-  function notify(message) {
-    const el = byId('toast');
-    el.textContent = message;
-    el.hidden = false;
-    clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => { el.hidden = true; }, 2400);
-  }
-
-  function renderCatalog() {
-    const container = byId('catalogo');
-    container.innerHTML = cfg.categorias.map((cat) => {
-      const list = cfg.produtos.filter((p) => p.categoria === cat.id);
-      if (!list.length) return '';
-      return `<section class="categoria" id="${escapeHtml(cat.id)}" aria-label="${escapeHtml(cat.titulo)}">
-        <img class="placa" src="${escapeHtml(cat.placa)}" alt="${escapeHtml(cat.titulo)}" />
-        <div class="lista">${list.map((p) => {
-          const sala = cfg.salas[p.sala]?.nome || 'Sala a definir';
-          return `<article class="produto">
-            <img class="foto" src="${escapeHtml(p.imagem)}" style="object-position:${escapeHtml(p.imagemPos || '50%')}" alt="Imagem ilustrativa de ${escapeHtml(p.nome)}" loading="lazy" />
-            <div class="produto-info"><h3 class="nome">${escapeHtml(p.nome)}</h3>
-              <div class="sala">${escapeHtml(sala)}</div>
-              <div class="preco">${money(p.preco)}</div>
-              <button class="add" type="button" data-add="${escapeHtml(p.id)}" aria-label="Adicionar ${escapeHtml(p.nome)} ao carrinho"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Adicionar</button>
-            </div></article>`;
-        }).join('')}</div></section>`;
-    }).join('');
-  }
-
-  function refreshCounters() {
-    const count = cartCount();
-    byId('topCount').textContent = count;
-    byId('stickyCount').textContent = `(${count})`;
-    byId('stickyTotal').textContent = money(cartTotal());
-    byId('stickyCart').hidden = count === 0 || !byId('cartOverlay').hidden;
-  }
-
-  function add(id) {
-    if (!products.has(id)) return;
-    cart[id] = Math.min(99, (cart[id] || 0) + 1);
-    saveCart(); refreshCounters();
-    notify('Adicionado ao carrinho!');
-  }
-
-  function updateQuantity(id, diff) {
-    if (!products.has(id)) return;
-    const qty = Math.max(0, Math.min(99, (cart[id] || 0) + diff));
-    if (!qty) delete cart[id]; else cart[id] = qty;
-    saveCart(); renderCart(); refreshCounters();
-  }
-
-  function route() {
-    const distinct = [...new Set(entries().map((p) => p.sala))];
-    if (distinct.length > 1) return 'AB';
-    return distinct[0] || null;
-  }
-
-  function generateMessage() {
-    const list = entries();
-    const different = [...new Set(list.map((p) => p.sala))];
-    const lines = ['🎪 *CIRCO DO TERROR — NOVO PEDIDO*', ''];
-    for (const sala of different) {
-      if (different.length > 1) lines.push(`*${cfg.salas[sala]?.nome || 'Sala ' + sala}*`);
-      for (const p of list.filter((p) => p.sala === sala)) {
-        lines.push(`${p.qty}x ${p.nome} — ${money(p.qty * p.preco)}`);
-      }
-      lines.push('');
-    }
-    lines.push(`*TOTAL: ${money(cartTotal())}*`);
-    lines.push('', 'Pedido feito pelo cardápio digital do Circo do Terror.');
-    return lines.join('\n');
-  }
-
-  function renderCart() {
-    const container = byId('cartContents');
-    const list = entries();
-    if (!list.length) {
-      container.innerHTML = '<div class="empty"><div class="empty-icon">🛒</div>Seu carrinho está vazio.<br>Escolha um produto para começar.<button type="button" class="back-shopping" id="backShopping">Voltar ao cardápio</button></div>';
-      return;
-    }
-    const r = route();
-    const name = cfg.salas[r]?.nome || 'Sala a definir';
-    container.innerHTML = `<div class="cart-list">${list.map((p) =>
-      `<div class="cart-item"><div><h3>${escapeHtml(p.nome)}</h3><small>${escapeHtml(cfg.salas[p.sala]?.nome || p.sala)} · ${money(p.preco)} cada</small></div>
-        <div class="item-price">${money(p.preco * p.qty)}</div>
-        <div></div><div class="stepper"><button type="button" data-change="-1" data-product="${escapeHtml(p.id)}" aria-label="Diminuir quantidade de ${escapeHtml(p.nome)}">−</button><span>${p.qty}</span><button type="button" data-change="1" data-product="${escapeHtml(p.id)}" aria-label="Aumentar quantidade de ${escapeHtml(p.nome)}">+</button></div>
-      </div>`).join('')}</div>
-      <footer class="cart-foot"><div class="total"><span>Total</span><span>${money(cartTotal())}</span></div>
-        <p class="routetip">${r === 'AB' ? 'Seu carrinho tem produtos de mais de uma sala. O pedido completo irá para o responsável pelos pedidos mistos.' : `Seu pedido será encaminhado para ${escapeHtml(name)}.`}</p>
-        <button type="button" class="finalizar" id="checkout"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>Finalizar pelo WhatsApp</button>
-        <p class="simulado">O WhatsApp abrirá com o pedido preenchido. Basta tocar em Enviar.</p>
-      </footer>`;
-  }
-
-  function openSheet(id) {
-    lastFocus = document.activeElement;
-    byId(id).hidden = false;
-    document.body.style.overflow = 'hidden';
-    if (id === 'cartOverlay') { renderCart(); refreshCounters(); byId('closeCart').focus(); }
-    else byId('closePreview').focus();
-  }
-
-  function closeSheet(id) {
-    byId(id).hidden = true;
-    if (byId('cartOverlay').hidden && byId('previewOverlay').hidden) document.body.style.overflow = '';
-    refreshCounters();
-    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
-  }
-
-  function checkout() {
-    if (!cartCount()) return;
-    const r = route();
-    const rawPhone = String(cfg.salas[r]?.whatsapp || '').replace(/\D/g, '');
-    const message = generateMessage();
-    // Não há número fictício ou envios simulados: sem configuração, mostramos a prévia.
-    if (!/^\d{12,13}$/.test(rawPhone)) {
-      byId('previewBody').textContent = message;
-      openSheet('previewOverlay');
-      return;
-    }
-    // Link oficial: abre a conversa com mensagem preenchida; o cliente envia manualmente.
-    window.location.href = `https://wa.me/${rawPhone}?text=${encodeURIComponent(message)}`;
-  }
-
-  document.addEventListener('click', (event) => {
-    const addButton = event.target.closest('[data-add]');
-    if (addButton) { add(addButton.dataset.add); return; }
-    const qButton = event.target.closest('[data-change]');
-    if (qButton) { updateQuantity(qButton.dataset.product, Number(qButton.dataset.change)); return; }
-    if (event.target.closest('#topCart,#stickyButton')) { openSheet('cartOverlay'); return; }
-    if (event.target.closest('#closeCart,#backShopping')) { closeSheet('cartOverlay'); return; }
-    if (event.target.closest('#closePreview')) { closeSheet('previewOverlay'); return; }
-    if (event.target.closest('#checkout')) { checkout(); return; }
-    if (event.target.closest('#copyMessage')) {
-      const text = byId('previewBody').textContent;
-      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(() => notify('Pedido copiado!')).catch(() => notify('Selecione e copie a mensagem acima.'));
-      else notify('Selecione e copie a mensagem acima.');
-    }
-    if (event.target === byId('cartOverlay')) closeSheet('cartOverlay');
-    if (event.target === byId('previewOverlay')) closeSheet('previewOverlay');
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !byId('previewOverlay').hidden) closeSheet('previewOverlay');
-    else if (event.key === 'Escape' && !byId('cartOverlay').hidden) closeSheet('cartOverlay');
-  });
-
-  renderCatalog();
-  refreshCounters();
-})();
-
-</script>
+<script src="./script.js" defer></script>
 </body>
 </html>
