@@ -50,9 +50,9 @@
           return `<article class="produto">
             ${p.categoria === 'salgados'
               ? `<div class="foto foto-salgado" role="img" aria-label="${escapeHtml(p.nome)}" style="background-position:${escapeHtml(p.imagemPos || '50%')} center"></div>`
-              : p.categoria === 'doces'
+              : p.categoria === 'doces' && p.id !== 'combo-brigadeiro-brownie'
                 ? `<div class="foto foto-doce" role="img" aria-label="${escapeHtml(p.nome)}" style="background-position:${escapeHtml(p.imagemPos || '0%')} center"></div>`
-                : `<img class="foto foto-bebida" src="${escapeHtml(p.imagem)}" alt="${escapeHtml(p.nome)}" loading="lazy" referrerpolicy="no-referrer" />`}
+                : `<img class="foto${p.categoria === 'bebidas' ? ' foto-bebida' : ''}" src="${escapeHtml(p.imagem)}" alt="${escapeHtml(p.nome)}" loading="lazy" />`}
             <div class="produto-info"><h3 class="nome">${escapeHtml(p.nome)}</h3>
               <div class="sala">${escapeHtml(descricao)}</div>
               <div class="preco">${money(p.preco)}</div>
