@@ -165,7 +165,7 @@
     const complementoInput = byId('customerExtra');
     const nome = nomeInput.value.trim().replace(/\s+/g, ' ');
     const complemento = complementoInput.value.trim().replace(/\s+/g, ' ');
-    nomeInput.setCustomValidity(nome.split(' ').length >= 2 ? '' : 'Digite seu nome completo (nome e sobrenome).');
+    nomeInput.setCustomValidity(nome ? '' : 'Informe seu nome.');
     complementoInput.setCustomValidity(complemento ? '' : 'Informe sua turma, curso ou escreva Visitante.');
     if (!byId('customerForm').reportValidity()) return;
 
