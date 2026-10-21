@@ -8,6 +8,7 @@
   }
 
   const storageKey = 'circo-terror-carrinho-v1';
+  const mixedGroupInviteUrl = 'https://chat.whatsapp.com/Cap8A1E0Wbz0XzO9K3OJMx';
   const products = new Map(cfg.produtos.map((p) => [p.id, p]));
   const money = (n) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(n);
   const escapeHtml = (v) => String(v).replace(/[&<>"']/g, (s) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
@@ -127,7 +128,7 @@
         <div></div><div class="stepper"><button type="button" data-change="-1" data-product="${escapeHtml(p.id)}" aria-label="Diminuir quantidade de ${escapeHtml(p.nome)}">−</button><span>${p.qty}</span><button type="button" data-change="1" data-product="${escapeHtml(p.id)}" aria-label="Aumentar quantidade de ${escapeHtml(p.nome)}">+</button></div>
       </div>`).join('')}</div>
       <footer class="cart-foot"><div class="total"><span>Total</span><span>${money(cartTotal())}</span></div>
-        <p class="routetip">${r === 'AB' ? 'Seu pedido reúne itens da Sala T18 e da Sala T16. O atendimento conjunto receberá o pedido completo.' : `Seu pedido será encaminhado para ${escapeHtml(name)}.`}</p>
+        <p class="routetip">${r === 'AB' ? 'Pedido com itens da T18 e da T16: ao finalizar, a mensagem será copiada e você abrirá o grupo para colar e enviar.' : `Seu pedido será encaminhado para ${escapeHtml(name)}.`}</p>
         <button type="button" class="finalizar" id="checkout"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>Finalizar pedido</button>
         <p class="simulado">Antes do WhatsApp, informe seu nome completo e sua turma ou curso.</p>
       </footer>`;
@@ -139,9 +140,13 @@
     document.body.style.overflow = 'hidden';
     if (id === 'cartOverlay') { renderCart(); refreshCounters(); byId('closeCart').focus(); }
     else if (id === 'customerOverlay') {
-      byId('customerRoute').textContent = route() === 'AB'
-        ? 'Pedido com itens da T18 e da T16: encaminhamento ao atendimento conjunto.'
+      const mixedOrder = route() === 'AB';
+      byId('customerRoute').textContent = mixedOrder
+        ? 'Pedido misto: vamos copiar a mensagem e abrir o convite do grupo. Depois, entre no grupo, cole e envie o pedido.'
         : 'Seu pedido irá para ' + (cfg.salas[route()]?.nome || 'a sala responsável') + '.';
+      byId('customerForm').querySelector('button[type="submit"]').textContent = mixedOrder
+        ? 'Copiar pedido e abrir grupo'
+        : 'Confirmar e abrir WhatsApp';
       byId('customerName').focus();
     } else byId('closePreview').focus();
   }
@@ -158,6 +163,48 @@
     openSheet('customerOverlay');
   }
 
+  // Primeiro tenta a API de clipboard; a cópia clássica serve como alternativa
+  // para navegadores móveis que não permitem writeText nesta situação.
+  function copyOrderText(message) {
+    function legacyCopy() {
+      const textarea = document.createElement('textarea');
+      textarea.value = message;
+      textarea.readOnly = true;
+      textarea.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      textarea.setSelectionRange(0, message.length);
+      let copied = false;
+      try { copied = document.execCommand('copy'); } catch (_) {}
+      textarea.remove();
+      return copied;
+    }
+    if (navigator.clipboard?.writeText) {
+      return navigator.clipboard.writeText(message).then(() => true).catch(() => legacyCopy());
+    }
+    return Promise.resolve(legacyCopy());
+  }
+
+  function showMixedOrderCopyFallback(message) {
+    byId('previewBody').textContent = message;
+    byId('previewOverlay').querySelector('.routetip').textContent =
+      'Não foi possível copiar automaticamente. Toque em Copiar mensagem ou copie o texto acima. Depois abra o grupo, cole e envie o pedido.';
+    let groupLink = byId('previewGroupLink');
+    if (!groupLink) {
+      groupLink = document.createElement('a');
+      groupLink.id = 'previewGroupLink';
+      groupLink.className = 'copy-btn';
+      groupLink.textContent = 'Abrir grupo de WhatsApp';
+      groupLink.style.cssText = 'display:block;text-align:center;text-decoration:none';
+      byId('copyMessage').insertAdjacentElement('afterend', groupLink);
+    }
+    groupLink.href = mixedGroupInviteUrl;
+    groupLink.style.display = 'block';
+    closeSheet('customerOverlay');
+    openSheet('previewOverlay');
+  }
+
   function confirmOrder(event) {
     event.preventDefault();
     if (!cartCount()) { closeSheet('customerOverlay'); return; }
@@ -170,9 +217,24 @@
     if (!byId('customerForm').reportValidity()) return;
 
     const r = route();
-    const rawPhone = String(cfg.salas[r]?.whatsapp || '').replace(/\D/g, '');
     const message = generateMessage({ nome, complemento });
+    if (r === 'AB') {
+      const submitButton = byId('customerForm').querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      copyOrderText(message).then((copied) => {
+        if (copied) {
+          closeSheet('customerOverlay');
+          window.location.href = mixedGroupInviteUrl;
+        } else {
+          showMixedOrderCopyFallback(message);
+        }
+      }).finally(() => { submitButton.disabled = false; });
+      return;
+    }
+    const rawPhone = String(cfg.salas[r]?.whatsapp || '').replace(/\D/g, '');
     if (!/^\d{12,13}$/.test(rawPhone)) {
+      const groupLink = byId('previewGroupLink');
+      if (groupLink) groupLink.style.display = 'none';
       byId('previewBody').textContent = message;
       openSheet('previewOverlay');
       return;
@@ -207,9 +269,13 @@
     if (event.target.closest('#closeCustomer')) { closeSheet('customerOverlay'); return; }
     if (event.target.closest('#checkout')) { checkout(); return; }
     if (event.target.closest('#copyMessage')) {
-      const text = byId('previewBody').textContent;
-      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(() => notify('Pedido copiado!')).catch(() => notify('Selecione e copie a mensagem acima.'));
-      else notify('Selecione e copie a mensagem acima.');
+      const message = byId('previewBody').textContent;
+      copyOrderText(message).then((copied) => {
+        if (!copied) { notify('Selecione e copie a mensagem acima.'); return; }
+        const groupLink = byId('previewGroupLink');
+        if (groupLink && groupLink.style.display !== 'none') window.location.href = mixedGroupInviteUrl;
+        else notify('Pedido copiado!');
+      });
     }
     if (event.target === byId('cartOverlay')) closeSheet('cartOverlay');
     if (event.target === byId('previewOverlay')) closeSheet('previewOverlay');
